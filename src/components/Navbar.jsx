@@ -20,8 +20,8 @@ const NavBar = () => {
           </div>
         ) : (
           <div>
-            <Button variant="dark" className="border-light mx-2">🔐 Login</Button>
-            <Button variant="dark" className="border-light mx-2">🔐 Register</Button>
+            <Button variant="dark" className="border-light mx-2" >🔐 Login</Button>
+            <Button variant="dark" className="border-light mx-2" >🔐 Register</Button>
           </div>
         )}
       </Nav>
