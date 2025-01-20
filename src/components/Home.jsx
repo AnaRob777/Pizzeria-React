@@ -9,7 +9,7 @@ const Home = () => {
  
   const getPizzas = async () => {
   
-      const url = "http://localhost:5001/api/pizzas"
+      const url = "http://localhost:5000/api/pizzas"
       const response = await fetch(url)
       const data = await response.json()
       setPizzas(data)

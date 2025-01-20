@@ -13,10 +13,10 @@ const Pizza = () => {
 
   const getData = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/pizzas/p001");
+      const response = await fetch("http://localhost:5000/api/pizzas/p001");
       if (!response.ok) {
         throw new Error('Error al obtener los datos de la pizza');
-      }
+
       const data = await response.json();
       setPizza(data);
       setLoading(false);
