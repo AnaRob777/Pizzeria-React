@@ -10,7 +10,6 @@ const CardPizza = ({ name, price, ingredients, img, desc}) => {
           <br/>
           <p className="card-text">{desc}</p>
           <br/>
-          <h4 className="card-text">Ingredientes:</h4>
           <ul className="list-unstyled mb-3">
             <strong>Ingredientes:</strong>
             {ingredients.map((ingredient, index) => (
