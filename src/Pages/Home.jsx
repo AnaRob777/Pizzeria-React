@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Cardpizza from './Cardpizza';
-import Header from './Header';
-import Pizza from './Pizza';
+import Cardpizza from '../components/Cardpizza';
+import Header from '../components/Header';
+import Pizza from '../components/Pizza';
 
 const Home = () => {
 

@@ -20,7 +20,8 @@ const Pizza = () => {
       const data = await response.json();
       setPizza(data);
       setLoading(false);
-    } catch (e) {
+    }}
+    catch (e) {
       console.error(e);
       setError(e.message);
       setLoading(false);
