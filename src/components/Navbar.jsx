@@ -1,11 +1,14 @@
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import { useCarrito } from '../context/CartContext'; 
 
 const NavBar = () => {
-  const total = 25000;
+  const { calcularPrecioTotal } = useCarrito(); 
+  const total = calcularPrecioTotal(); 
   const token = false;
 
   return (

@@ -1,40 +1,40 @@
-import React, { useState } from "react";
-import { pizzaCart } from "../pizzas";
+import React from "react";
+import { useCarrito } from "../context/CartContext"; 
 
 const Cart = () => {
-  const [cart, setCart] = useState(pizzaCart);
+  const { carrito, eliminarDelCarrito, actualizarCantidadProducto, calcularPrecioTotal } = useCarrito(); 
 
   const aumentarCantidad = (id) => {
-    const updatedCart = cart.map((item) =>
-      item.id === id ? { ...item, count: item.count + 1 } : item
-    );
-    setCart(updatedCart);
-  };
+    actualizarCantidadProducto(id, 1); 
+  }
 
-  const disminuirCantidad = (id) => {
-    const updatedCart = cart
-      .map((item) =>
-        item.id === id ? { ...item, count: Math.max(item.count - 1, 0) } : item
-      )
-      .filter((item) => item.count > 0);
-    setCart(updatedCart);
-  };
-
-  const calculoTotal = () =>
-    cart.reduce((total, item) => total + item.price * item.count, 0);
+  const disminuirCantidad = (id, cantidad) => {
+    if (cantidad === 1) {
+      eliminarDelCarrito(id); 
+    } else {
+      actualizarCantidadProducto(id, -1); 
+    }
+  }
 
   return (
     <div className="container my-5">
       <h2 className="text-center mb-4">Detalle del pedido</h2>
-      {cart.length > 0 ? (
+      {carrito.length > 0 ? (
         <div className="row">
           <div className="col-12">
             <table className="table table-bordered table-hover">
               <thead className="thead-light">
-
+                <tr>
+                  <th>Imagen</th>
+                  <th>Nombre</th>
+                  <th>Precio</th>
+                  <th>Cantidad</th>
+                  <th>Total</th>
+                  <th>Acciones</th>
+                </tr>
               </thead>
               <tbody>
-                {cart.map((pizza) => (
+                {carrito.map((pizza) => (
                   <tr key={pizza.id}>
                     <td>
                       <img
@@ -49,18 +49,18 @@ const Cart = () => {
                     </td>
                     <td>{pizza.name}</td>
                     <td>${pizza.price.toLocaleString()}</td>
-                    <td>{pizza.count}</td>
-                    <td>${(pizza.price * pizza.count).toLocaleString()}</td>
+                    <td>{pizza.cantidad}</td>
+                    <td>${(pizza.price * pizza.cantidad).toLocaleString()}</td>
                     <td>
                       <button
                         className="btn btn-success btn-sm mx-1"
-                        onClick={() => aumentarCantidad(pizza.id)}
+                        onClick={() => aumentarCantidad(pizza.id)} 
                       >
                         +
                       </button>
                       <button
                         className="btn btn-danger btn-sm mx-1"
-                        onClick={() => disminuirCantidad(pizza.id)}
+                        onClick={() => disminuirCantidad(pizza.id, pizza.cantidad)} 
                       >
                         -
                       </button>
@@ -71,7 +71,7 @@ const Cart = () => {
             </table>
           </div>
           <div className="col-12 text-end">
-            <h4>Total: ${calculoTotal().toLocaleString()}</h4>
+            <h4>Total: ${calcularPrecioTotal().toLocaleString()}</h4>
             <button className="btn btn-primary mt-3">Pagar</button>
           </div>
         </div>
