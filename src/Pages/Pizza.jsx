@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useCarrito } from "../context/CartContext"; 
 
 const Pizza = () => {
   const [pizza, setPizza] = useState({
-    id: '',
     img: '',
     name: '',
     price: 0,
@@ -13,17 +11,17 @@ const Pizza = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { agregarAlCarrito } = useCarrito(); 
   const getData = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/pizzas/p001");
+      const response = await fetch("http://localhost:5000/api/pizzas/p001");
       if (!response.ok) {
         throw new Error('Error al obtener los datos de la pizza');
-      }
+
       const data = await response.json();
       setPizza(data);
       setLoading(false);
-    } catch (e) {
+    }}
+    catch (e) {
       console.error(e);
       setError(e.message);
       setLoading(false);
@@ -33,19 +31,6 @@ const Pizza = () => {
   useEffect(() => {
     getData();
   }, []);
-
-  const manejarAgregarAlCarrito = () => {
-    const pizzaToAdd = {
-      id: pizza.id,
-      name: pizza.name,
-      price: pizza.price,
-      ingredients: pizza.ingredients,
-      img: pizza.img,
-      desc: pizza.desc,
-      cantidad: 1, 
-    };
-    agregarAlCarrito(pizzaToAdd);
-  };
 
   if (loading) {
     return <p>Cargando información de la pizza...</p>;
@@ -73,11 +58,11 @@ const Pizza = () => {
                 ))}
               </ul>
               <h5 className="card-text mb-3">
-                <strong>Precio: ${pizza.price.toLocaleString('es-ES')}</strong>
+                <strong>Precio: ${pizza.price.toLocaleString()}</strong>
               </h5>
               <div className="d-flex justify-content-between">
                 <button className="btn btn-light border-dark">Ver Más 👀</button>
-                <button className="btn btn-dark" onClick={manejarAgregarAlCarrito}>Añadir 🛒</button>
+                <button className="btn btn-dark">Añadir 🛒</button>
               </div>
             </div>
           </div>
