@@ -4,12 +4,14 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-import { useCarrito } from '../context/CartContext.jsx'; 
+import { useCarrito } from '../context/CartContext.jsx';
+import { useUser } from '../context/UserContext.jsx'; 
 
 const NavBar = () => {
   const { calcularPrecioTotal } = useCarrito(); 
-  const total = calcularPrecioTotal(); 
-  const token = false;
+  const total = calcularPrecioTotal();
+
+  const { token, logout } = useUser(); 
 
   return (
     <Navbar bg="dark" data-bs-theme="dark">
@@ -20,21 +22,27 @@ const NavBar = () => {
             <Button variant="dark" className="border-light mx-2">🍕 Home</Button>
           </Link>
           {token ? (
-            <div>
+            <>
               <Link to="/profile" className="text-decoration-none">
                 <Button variant="dark" className="border-light mx-2">🔓 Profile</Button>
               </Link>
-              <Button variant="dark" className="border-light mx-2">🔒 Logout</Button>
-            </div>
+              <Button
+                variant="dark"
+                className="border-light mx-2"
+                onClick={logout} 
+              >
+                🔒 Logout
+              </Button>
+            </>
           ) : (
-            <div>
+            <>
               <Link to="/login" className="text-decoration-none">
                 <Button variant="dark" className="border-light mx-2">🔐 Login</Button>
               </Link>
               <Link to="/register" className="text-decoration-none">
                 <Button variant="dark" className="border-light mx-2">🔐 Register</Button>
               </Link>
-            </div>
+            </>
           )}
         </Nav>
         <Nav className="ms-auto">
@@ -47,6 +55,6 @@ const NavBar = () => {
       </Container>
     </Navbar>
   );
-}
+};
 
 export default NavBar;

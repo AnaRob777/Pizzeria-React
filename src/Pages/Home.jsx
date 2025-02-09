@@ -16,6 +16,10 @@ const Home = () => {
     getPizzas();
   }, []);
 
+  const capitalizarPrimeraLetra = (name) => {
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  };
+
   return (
     <section>
       <Header />
@@ -25,7 +29,7 @@ const Home = () => {
             key={pizza.id}
             id={pizza.id}
             img={pizza.img}
-            name={pizza.name}
+            name={capitalizarPrimeraLetra(pizza.name)}
             desc={pizza.desc}
             price={pizza.price}
             ingredients={pizza.ingredients}

@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -10,25 +11,28 @@ import Login from './Pages/Login';
 import Profile from './Pages/Profile';
 import NotFound from './Pages/NotFound.jsx';
 import { CartProvider } from './context/CartContext.jsx';
+import { UserProvider, ProtectedRoute, RedirectIfAuthenticated } from './context/UserContext';
 
 function App() {
   return (
-    <CartProvider> 
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/pizza/p001" element={<Pizza />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Footer />
-      </Router>
-    </CartProvider> 
+    <UserProvider>
+      <CartProvider>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<RedirectIfAuthenticated><Register /></RedirectIfAuthenticated>} />
+            <Route path="/login" element={<RedirectIfAuthenticated><Login /></RedirectIfAuthenticated>} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/pizza/p001" element={<Pizza />} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="/pizza/:id" element={<Pizza />} />
+          </Routes>
+          <Footer />
+        </Router>
+      </CartProvider>
+    </UserProvider>
   );
 }
 

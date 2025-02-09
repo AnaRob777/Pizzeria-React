@@ -1,10 +1,10 @@
-import React from "react";
-import { useCarrito } from "../context/CartContext.jsx"; 
+import React from "react"
+import { Link } from "react-router-dom"
+import { useCarrito } from "../context/CartContext.jsx"
 
 const CardPizza = ({ name, price, ingredients, img, desc, id }) => {
-  const { agregarAlCarrito } = useCarrito(); 
+  const { agregarAlCarrito } = useCarrito();
 
-  
   const pizza = {
     id,
     name,
@@ -33,10 +33,12 @@ const CardPizza = ({ name, price, ingredients, img, desc, id }) => {
             ))}
           </ul>
           <h5 className="card-text">
-            <strong>Precio: ${price.toLocaleString()}</strong>
+            <strong>Precio: ${price.toLocaleString("es-ES")}</strong>
           </h5>
           <div className="d-flex justify-content-between">
-            <button className="btn btn-light border-dark">Ver Más 👀</button>
+            <Link to={`/pizza/${id}`} className="btn btn-light border-dark">
+              Ver Más 👀
+            </Link>
             <button
               className="btn btn-dark"
               onClick={() => agregarAlCarrito(pizza)} 
