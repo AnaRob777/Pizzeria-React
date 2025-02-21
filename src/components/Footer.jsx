@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 const Footer = () => {
   return (
     <footer>
-        <div class="d-inline p-2 text-bg-dark">© 2021 - Pizzería Mamma Mia! - Todos los derechos reservados</div>
+        <div className="d-inline p-2 text-bg-dark">© 2021 - Pizzería Mamma Mia! - Todos los derechos reservados</div>
     </footer>
   )
 }

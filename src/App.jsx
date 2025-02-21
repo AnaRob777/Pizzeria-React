@@ -15,24 +15,35 @@ import { UserProvider, ProtectedRoute, RedirectIfAuthenticated } from './context
 
 function App() {
   return (
-    <UserProvider>
-      <CartProvider>
-        <Router>
+    <Router>
+      <UserProvider>
+        <CartProvider>
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/register" element={<RedirectIfAuthenticated><Register /></RedirectIfAuthenticated>} />
-            <Route path="/login" element={<RedirectIfAuthenticated><Login /></RedirectIfAuthenticated>} />
+            <Route path="/register" element={
+              <RedirectIfAuthenticated>
+                <Register />
+              </RedirectIfAuthenticated>
+            } />
+            <Route path="/login" element={
+              <RedirectIfAuthenticated>
+                <Login />
+              </RedirectIfAuthenticated>
+            } />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/pizza/p001" element={<Pizza />} />
-            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-            <Route path="/404" element={<NotFound />} />
             <Route path="/pizza/:id" element={<Pizza />} />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } />
+            <Route path="/404" element={<NotFound />} />
           </Routes>
           <Footer />
-        </Router>
-      </CartProvider>
-    </UserProvider>
+        </CartProvider>
+      </UserProvider>
+    </Router>
   );
 }
 

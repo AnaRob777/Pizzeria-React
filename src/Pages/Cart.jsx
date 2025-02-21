@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useCarrito } from "../context/CartContext";
 import { useUser } from "../context/UserContext";
 
 const Cart = () => {
-  const { carrito, eliminarDelCarrito, actualizarCantidadProducto, calcularPrecioTotal } = useCarrito(); 
-  const { token } = useUser(); 
+  const { carrito, eliminarDelCarrito, actualizarCantidadProducto, calcularPrecioTotal, clearCart } = useCarrito();
+  const { token } = useUser();
+  const [checkoutSuccess, setCheckoutSuccess] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
 
   const aumentarCantidad = (id) => {
     actualizarCantidadProducto(id, 1);
@@ -15,6 +17,33 @@ const Cart = () => {
       eliminarDelCarrito(id);
     } else {
       actualizarCantidadProducto(id, -1);
+    }
+  };
+
+  const handleCheckout = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/checkouts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ cart: carrito }),
+      });
+      if (!response.ok) {
+        throw new Error("Error en el proceso de compra");
+      }
+      const data = await response.json();
+      // Si la compra se realizó con éxito:
+      setCheckoutSuccess(true);
+      setCheckoutError("");
+      // Limpia el carrito si el contexto lo permite
+      if (clearCart) {
+        clearCart();
+      }
+    } catch (error) {
+      setCheckoutError("Error al realizar la compra. Inténtalo nuevamente.");
+      setCheckoutSuccess(false);
     }
   };
 
@@ -65,7 +94,8 @@ const Cart = () => {
             <h4>Total: ${calcularPrecioTotal().toLocaleString("es-ES")}</h4>
             <button
               className="btn btn-primary mt-3"
-              disabled={!token} 
+              disabled={!token}
+              onClick={handleCheckout}
             >
               Pagar
             </button>
@@ -73,6 +103,16 @@ const Cart = () => {
               <p className="text-danger mt-2">
                 Debes iniciar sesión para poder realizar el pago.
               </p>
+            )}
+            {checkoutSuccess && (
+              <div className="alert alert-success mt-3">
+                ¡Compra realizada con éxito!
+              </div>
+            )}
+            {checkoutError && (
+              <div className="alert alert-danger mt-3">
+                {checkoutError}
+              </div>
             )}
           </div>
         </div>
